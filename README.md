@@ -6,4 +6,4 @@ Only the book appears on screen. Tap its right half to go forward, or its left h
 
 The cover opens into two-page spreads on wide screens. Phones show one page at a time. All original images appear in order: Cover.jpg, then 1.jpg through 19.jpg.
 
-Every completed turn plays the local page-flip.wav paper sound. Keep the images, HTML, CSS, JavaScript, and WAV files together.
+Page movement plays the preloaded page-flip-trimmed.wav paper sound in sync with the animation. The original page-flip.wav is preserved. Keep the images, HTML, CSS, JavaScript, and WAV files together.

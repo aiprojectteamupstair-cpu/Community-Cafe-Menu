@@ -3,3 +3,21 @@
 /* Hide inactive sheets completely, including image visibility overrides. */
 .leaf{display:none}.leaf.active{display:block}.book.closed .left-page{display:none}
 
+/* Keep the book and leaf as true 3D contexts: filters flatten their children. */
+.book{filter:none;transition:transform .98s cubic-bezier(.4,0,.2,1);will-change:transform}
+.book:after{box-shadow:0 25px 45px #0009}
+.leaf{filter:none;will-change:transform;transform:rotateY(0deg)}
+.leaf-front,.leaf-back{backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.leaf-front{transform:translateZ(.4px)}
+.leaf-back{transform:rotateY(180deg) translateZ(.4px)}
+.leaf-front:after{background:linear-gradient(90deg,#0009,transparent 12%,transparent 95%,#0003)}
+.leaf-back:after{background:linear-gradient(90deg,#0002,transparent 6%,transparent 80%,#0008)}
+.leaf-front:before,.leaf-back:before{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;opacity:var(--curl,0);background:linear-gradient(90deg,#0003,transparent 25%,#ffffff12 65%,#0004)}
+.right-page:before,.left-page:before{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,#000,transparent 85%);opacity:var(--right-shadow,0)}
+.left-page:before{background:linear-gradient(270deg,#000,transparent 85%);opacity:var(--left-shadow,0)}
+@media(min-width:701px){
+ .book.closed{width:calc(var(--page-width)*2);transform:translateX(calc(var(--page-width)*-.5))}
+ .book.closed:after{left:calc(50% - 4px)}
+ .book.closed .spine{left:50%}
+}
+@media(prefers-reduced-motion:reduce){.book{transition:none}}
