@@ -1,4 +1,8 @@
-const files = ['Cover.jpg', ...Array.from({length:19},(_,i)=>`${i+1}.jpg`)];
+const imageVersion = '20261021';
+const files = ['Cover.jpg', ...Array.from({length:19},(_,i)=>`${i+1}.jpg`), 'BACK-Cover.jpg']
+  .map(src => `${src}?v=${imageVersion}`);
+const lastPage = files.length - 1;
+const menuPageCount = files.length - 2;
 const $ = id => document.getElementById(id);
 const mobile = matchMedia('(max-width:700px)');
 const reducedMotion = matchMedia('(prefers-reduced-motion:reduce)');
@@ -22,7 +26,7 @@ function ready(index) {
   return decoded.get(index);
 }
 function warmPages() {
-  for (let index = Math.max(0,current-2); index <= Math.min(19,current+3); index++) ready(index);
+  for (let index = Math.max(0,current-2); index <= Math.min(lastPage,current+3); index++) ready(index);
 }
 function sound(state,duration=.98) {
   if (state.soundStarted) return;
@@ -44,7 +48,7 @@ function targetFor(direction) {
 }
 function setImage(id,index) {
   const image = $(id);
-  if (index >= 0 && index < files.length) { image.src = files[index]; image.style.visibility = 'visible'; image.alt = index === 0 ? 'The Community Café menu cover' : `Café menu page ${index}`; }
+  if (index >= 0 && index < files.length) { image.src = files[index]; image.style.visibility = 'visible'; image.alt = index === 0 ? 'The Community Café menu cover' : index === lastPage ? 'The Community Café menu back cover' : `Café menu page ${index}`; }
   else { image.removeAttribute('src'); image.style.visibility = 'hidden'; image.alt = ''; }
 }
 function render() {
@@ -52,7 +56,7 @@ function render() {
   if (mobile.matches || current === 0) { setImage('right-image',current); setImage('left-image',-1); }
   else { setImage('left-image',current); setImage('right-image',current+1); }
   $('previous').disabled = current === 0; $('next').disabled = targetFor(1) >= files.length;
-  $('page-status').textContent = current === 0 ? 'Menu cover' : mobile.matches || current === 19 ? `Menu page ${current} of 19` : `Menu pages ${current} and ${current+1} of 19`;
+  $('page-status').textContent = current === 0 ? 'Menu cover' : current === lastPage ? 'Menu back cover' : mobile.matches ? `Menu page ${current} of ${menuPageCount}` : current+1 === lastPage ? `Menu page ${current} of ${menuPageCount} and back cover` : `Menu pages ${current} and ${current+1} of ${menuPageCount}`;
   warmPages();
 }
 function prepare(direction) {
