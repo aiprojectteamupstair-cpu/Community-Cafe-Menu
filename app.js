@@ -1,6 +1,6 @@
 const imageVersion = '20261021';
 const files = ['Cover.jpg', ...Array.from({length:19},(_,i)=>`${i+1}.jpg`), 'BACK-Cover.jpg']
-  .map(src => `${src}?v=${imageVersion}`);
+  .map(src => `${src}?v=${src === '8.jpg' ? '20261023' : imageVersion}`);
 const lastPage = files.length - 1;
 const menuPageCount = files.length - 2;
 const $ = id => document.getElementById(id);
